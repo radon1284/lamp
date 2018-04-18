@@ -71,3 +71,42 @@ The address you want to visit will be:
 http://your_server_IP_address/info.php
 ```
 # How To Install and Secure phpMyAdmin on Ubuntu 16.04
+
+## Step 1: — Install phpMyAdmin
+
+```
+sudo apt-get update
+sudo apt-get install phpmyadmin php-mbstring php-gettext
+```
+```
+sudo phpenmod mcrypt
+sudo phpenmod mbstring
+```
+```
+sudo systemctl restart apache2
+```
+```
+https://domain_name_or_IP/phpmyadmin
+```
+## Step 2: — Secure your phpMyAdmin Instance
+
+### Configure Apache to Allow .htaccess Overrides
+First, we need to enable the use of `.htaccess` file overrides by editing our Apache configuration file.
+
+```
+sudo nano /etc/apache2/conf-available/phpmyadmin.conf
+```
+```
+/etc/apache2/conf-available/phpmyadmin.conf
+```
+```
+<Directory /usr/share/phpmyadmin>
+    Options FollowSymLinks
+    DirectoryIndex index.php
+    AllowOverride All
+</Directory>
+```
+To implement the changes you made, restart Apache:
+```
+sudo systemctl restart apache2
+```

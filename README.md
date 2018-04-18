@@ -70,3 +70,4 @@ The address you want to visit will be:
 ```
 http://your_server_IP_address/info.php
 ```
+# How To Install and Secure phpMyAdmin on Ubuntu 16.04

@@ -1,3 +1,197 @@
+# How to Create a Sudo User on Ubuntu 
+```
+cat ~/.ssh/id_rsa.pub | ssh root@your.ip.addr.ss 'cat - >> ~/.ssh/authorized_keys'
+```
+```
+ssh root@server_ip_address
+
+```
+```
+adduser username
+```
+```
+Set password prompts:
+Enter new UNIX password:
+Retype new UNIX password:
+passwd: password updated successfully
+
+User information prompts:
+Changing the user information for username
+Enter the new value, or press ENTER for the default
+    Full Name []:
+    Room Number []:
+    Work Phone []:
+    Home Phone []:
+    Other []:
+Is the information correct? [Y/n]
+```
+## Grant a User Sudo Privileges
+
+**Never edit this file with a normal text editor! Always use the visudo command instead!**
+```
+visudo
+or 
+sudo visudo
+```
+Search for the line that looks like this:
+```
+root    ALL=(ALL:ALL) ALL
+```
+Below this line, copy the format you see here, changing only the word "root" to reference the new user that you would like to give sudo privileges to:
+
+```
+root    ALL=(ALL:ALL) ALL
+newuser ALL=(ALL:ALL) ALL
+```
+```
+usermod -aG sudo username
+```
+Test sudo access on new user account
+```
+su - username
+
+```
+check root
+```
+sudo ls -la /root
+```
+## Add a existing user to www-data group
+
+```
+sudo usermod -a -G www-data  username
+id username
+groups username
+```
+# How To Set Up a Firewall with UFW on Ubuntu 
+
+## Step 1:  — Using IPv6 with UFW (Optional)
+```
+sudo nano /etc/default/ufw
+```
+Then make sure the value of IPV6 is yes. It should look like this:
+```
+IPV6=yes
+```
+## Step 2 — Setting Up Default Policies
+
+Let's set your UFW rules back to the defaults so we can be sure that you'll be able to follow along with this tutorial. To set the defaults used by UFW, use these commands:
+```
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+```
+## Step 3: — Allowing SSH Connections
+```
+sudo ufw allow ssh
+or 
+sudo ufw allow 22
+or 
+# make sure you remember port number
+sudo ufw allow 2222
+```
+## Step 4: — Enabling UFW
+
+```
+sudo ufw enable
+```
+## Step 5: — Allowing Other Connections
+
+```
+sudo ufw allow "your port number"
+or 
+sudo ufw allow 6000:6007/tcp
+# Specific IP Addresses
+sudo ufw allow from 15.15.15.51
+
+```
+check status
+```
+sudo ufw status verbose
+```
+# How To Set Up Apache Virtual Hosts on Ubuntu 
+
+```
+sudo apt-get update
+sudo apt-get install apache2
+```
+## Step 1: — Create the Directory Structure
+```
+sudo mkdir -p /var/www/example.com/public_html
+sudo mkdir -p /var/www/test.com/public_html
+```
+## Step 2: — Grant Permissions
+```
+sudo chown -R $USER:$USER /var/www/example.com/public_html
+sudo chown -R $USER:$USER /var/www/test.com/public_html
+```
+```
+sudo chmod -R 755 /var/www
+```
+## Step 3: — Create Demo Pages for Each Virtual Host
+```
+nano /var/www/example.com/public_html/index.html
+
+```
+Add this:
+```
+<html>
+  <head>
+    <title>Welcome to Example.com!</title>
+  </head>
+  <body>
+    <h1>Success!  The example.com virtual host is working!</h1>
+  </body>
+</html>
+```
+## Step 4: — Create New Virtual Host Files
+```
+sudo cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/example.com.conf
+```
+Open the new file in your editor with root privileges:
+```
+sudo nano /etc/apache2/sites-available/example.com.conf
+```
+```
+<VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/html
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+```
+First, we need to change the `ServerAdmin` directive to an email that the site administrator can receive emails through.
+```
+ServerAdmin admin@example.com
+```
+After this, we need to add two directives. The first, called ServerName, establishes the base domain that should match for this virtual host definition. This will most likely be your domain. The second, called ServerAlias, defines further names that should match as if they were the base name. This is useful for matching hosts you defined, like www:
+```
+ServerName example.com
+ServerAlias www.example.com
+DocumentRoot /var/www/example.com/public_html
+```
+In total, our virtualhost file should look like this:
+```
+<VirtualHost *:80>
+    ServerAdmin admin@example.com
+    ServerName example.com
+    ServerAlias www.example.com
+    DocumentRoot /var/www/example.com/public_html
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+```
+## Step 5: — Enable the New Virtual Host Files
+```
+sudo a2ensite example.com.conf
+sudo a2ensite test.com.conf
+```
+```
+sudo service apache2 restart
+```
+Test your results
+```
+http://example.com
+```
+
 # How To Intall LAMP in DigitalOcean
 
 ## Step 1: Install Apache

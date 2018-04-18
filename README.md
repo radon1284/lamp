@@ -131,3 +131,13 @@ sudo htpasswd -c /etc/phpmyadmin/.htpasswd username
 ```
 https://domain_name_or_IP/phpmyadmin
 ```
+### change phpMyAdmin access url
+from https://domain_name_or_IP/phpmyadmin to https://domain_name_or_IP/not-soknown-url
+
+```
+sudo nano /etc/phpmyadmin/apache.conf
+```
+Change this:
+```
+Alias /raketdb_VUUf4Mu8uCeaqgcG /usr/share/phpmyadmin
+```

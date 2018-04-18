@@ -333,5 +333,5 @@ sudo nano /etc/phpmyadmin/apache.conf
 ```
 Change this:
 ```
-Alias /raketdb_VUUf4Mu8uCeaqgcG /usr/share/phpmyadmin
+Alias /somthing_url_here /usr/share/phpmyadmin
 ```

@@ -110,3 +110,24 @@ To implement the changes you made, restart Apache:
 ```
 sudo systemctl restart apache2
 ```
+### Create an .htaccess File
+
+```
+sudo nano /usr/share/phpmyadmin/.htaccess
+```
+Within this file, we need to enter the following information:
+```
+AuthType Basic
+AuthName "Restricted Files"
+AuthUserFile /etc/phpmyadmin/.htpasswd
+Require valid-user
+```
+### Create the .htpasswd file for Authentication
+
+The location that we selected for our password file was `"/etc/phpmyadmin/.htpasswd"`. We can now create this file and pass it an initial user with the htpasswd utility:
+```
+sudo htpasswd -c /etc/phpmyadmin/.htpasswd username
+```
+```
+https://domain_name_or_IP/phpmyadmin
+```

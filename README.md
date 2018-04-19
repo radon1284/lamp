@@ -276,9 +276,16 @@ sudo apt-get install phpmyadmin php-mbstring php-gettext
 sudo phpenmod mcrypt
 sudo phpenmod mbstring
 ```
+Add Phpmyadmin  to `/etc/apache2/apache2.conf`
+```
+# Include Phpmyadmin
+ServerName ip.add.re.ss
+Include /etc/phpmyadmin/apache.conf
+```
 ```
 sudo systemctl restart apache2
 ```
+
 ```
 https://domain_name_or_IP/phpmyadmin
 ```
